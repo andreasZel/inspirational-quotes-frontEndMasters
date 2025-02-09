@@ -1,4 +1,4 @@
-type InspirationQuoteProps = {
+export type InspirationQuoteProps = {
   content: string;
   source?: string;
 };

@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { ReactNode } from "react";
 
-const Quotes = ({ children, count, onSubmit, onChange }: any) => {
+const Quotes = ({ children, onSubmit }: QuotesProps) => {
+
   return (
     <section className="flex flex-col gap-8">
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          onChange(e);
+          const form = e.currentTarget;
+          const formData = new FormData(form);
+          const numberOfQuotes = formData.get("number-of-quotes-to-load");
+          onSubmit(Number(numberOfQuotes));
+          form.reset();
         }}
       >
         <label htmlFor="number-of-quotes-to-load" className="block">
@@ -19,8 +24,7 @@ const Quotes = ({ children, count, onSubmit, onChange }: any) => {
             type="number"
             min="0"
             max="25"
-            value={count}
-            onChange={onChange}
+            name="number-of-quotes-to-load"
           />
           <button type="submit">Load Quotes</button>
         </div>
@@ -31,3 +35,8 @@ const Quotes = ({ children, count, onSubmit, onChange }: any) => {
 };
 
 export default Quotes;
+
+type QuotesProps = {
+  children: ReactNode,
+  onSubmit: (numberOfQuotes: number) => void
+}
